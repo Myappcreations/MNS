@@ -603,47 +603,312 @@
   </footer>
 
   <script>
-    const langBtn = document.getElementById("langBtn");
-    const menuBtn = document.getElementById("menuBtn");
-    const navLinks = document.getElementById("navLinks");
+   
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbz5OcdwDnxSiETGG8wHFmHITyt-B-QqGzZT4TtDBL8_I0JrMM08f7yqh7TfbpVbS622rg/exec";
 
-    let language = "te";
+const langBtn = document.getElementById("langBtn");
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
 
-    function setLanguage(lang) {
-      language = lang;
-      document.documentElement.lang = lang;
+let language = "te";
+let eventsData = [];
+let videosData = [];
 
-      document.querySelectorAll("[data-te][data-en]").forEach(el => {
-        el.textContent = el.dataset[lang];
-      });
+function setLanguage(lang) {
+  language = lang;
+  document.documentElement.lang = lang;
 
-      langBtn.textContent = lang === "te" ? "EN" : "తెలుగు";
+  document.querySelectorAll("[data-te][data-en]").forEach(el => {
+    el.textContent = el.dataset[lang];
+  });
 
-      document.title = lang === "te"
-        ? "MNS — మూఢ నమ్మకాల నిర్మూలన సంఘం"
-        : "MNS — Association for the Eradication of Superstitions";
+  langBtn.textContent = lang === "te" ? "EN" : "తెలుగు";
+
+  document.title = lang === "te"
+    ? "MNS — మూఢ నమ్మకాల నిర్మూలన సంఘం"
+    : "MNS — Association for the Eradication of Superstitions";
+
+  renderEvents();
+  renderVideos();
+}
+
+langBtn.addEventListener("click", () => {
+  setLanguage(language === "te" ? "en" : "te");
+});
+
+menuBtn.addEventListener("click", () => {
+  const isOpen = navLinks.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", String(isOpen));
+  menuBtn.textContent = isOpen ? "✕" : "☰";
+});
+
+navLinks.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("open");
+    menuBtn.setAttribute("aria-expanded", "false");
+    menuBtn.textContent = "☰";
+  });
+});
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+function textFor(te, en) {
+  return language === "te" ? te : en;
+}
+
+function makeElement(tag, className, text) {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+
+function showMessage(containerId, icon, title, message) {
+  const container = document.getElementById(containerId);
+  container.replaceChildren();
+
+  const box = makeElement("div", "empty");
+  box.append(
+    makeElement("div", "big", icon),
+    makeElement("h3", "", title),
+    makeElement("p", "", message)
+  );
+
+  container.appendChild(box);
+}
+
+function fetchPublicData(sheetName) {
+  return new Promise((resolve, reject) => {
+    const callbackName =
+      "mnsCallback" + sheetName + Date.now() +
+      Math.floor(Math.random() * 10000);
+
+    const script = document.createElement("script");
+    const timeout = setTimeout(() => {
+      cleanup();
+      reject(new Error("API request timed out"));
+    }, 20000);
+
+    function cleanup() {
+      clearTimeout(timeout);
+      script.remove();
+      try {
+        delete window[callbackName];
+      } catch (_) {
+        window[callbackName] = undefined;
+      }
     }
 
-    langBtn.addEventListener("click", () => {
-      setLanguage(language === "te" ? "en" : "te");
-    });
+    window[callbackName] = result => {
+      cleanup();
 
-    menuBtn.addEventListener("click", () => {
-      const isOpen = navLinks.classList.toggle("open");
-      menuBtn.setAttribute("aria-expanded", String(isOpen));
-      menuBtn.textContent = isOpen ? "✕" : "☰";
-    });
+      if (!result || result.success !== true ||
+          !Array.isArray(result.data)) {
+        reject(new Error("Invalid API response"));
+        return;
+      }
 
-    navLinks.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("open");
-        menuBtn.setAttribute("aria-expanded", "false");
-        menuBtn.textContent = "☰";
-      });
-    });
+      resolve(result.data);
+    };
 
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("Could not load API"));
+    };
+
+    script.src = API_URL +
+      "?sheet=" + encodeURIComponent(sheetName) +
+      "&callback=" + encodeURIComponent(callbackName);
+
+    document.head.appendChild(script);
+  });
+}
+
+function addLink(parent, url, label) {
+  if (!url) return;
+
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "https:" &&
+        parsed.protocol !== "http:") return;
+
+    const a = makeElement("a", "text-link", label);
+    a.href = parsed.href;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    parent.appendChild(a);
+  } catch (_) {
+    // Ignore invalid links.
+  }
+}
+
+function renderEvents() {
+  const container = document.getElementById("eventsList");
+  container.replaceChildren();
+
+  if (!eventsData.length) {
+    showMessage(
+      "eventsList",
+      "📍",
+      textFor("సమావేశాలు లేవు", "No published events"),
+      textFor(
+        "కొత్త సమావేశాల వివరాలు ప్రచురించినప్పుడు ఇక్కడ కనిపిస్తాయి.",
+        "Published meeting details will appear here."
+      )
+    );
+    return;
+  }
+
+  eventsData.forEach(event => {
+    const card = makeElement("article", "card");
+    card.appendChild(makeElement("div", "card-icon", "📍"));
+    card.appendChild(makeElement(
+      "h3", "", event.title || textFor("సమావేశం", "Meeting")
+    ));
+
+    if (event.date) {
+      card.appendChild(makeElement(
+        "p", "",
+        textFor("తేదీ: ", "Date: ") + event.date
+      ));
+    }
+
+    if (event.start_time || event.end_time) {
+      card.appendChild(makeElement(
+        "p", "",
+        textFor("సమయం: ", "Time: ") +
+        [event.start_time, event.end_time].filter(Boolean).join(" – ")
+      ));
+    }
+
+    if (event.venue) {
+      card.appendChild(makeElement(
+        "p", "",
+        textFor("వేదిక: ", "Venue: ") + event.venue
+      ));
+    }
+
+    if (event.address) {
+      card.appendChild(makeElement("p", "", event.address));
+    }
+
+    if (event.description) {
+      card.appendChild(makeElement("p", "", event.description));
+    }
+
+    addLink(
+      card,
+      event.map_url,
+      textFor("మ్యాప్ చూడండి →", "View map →")
+    );
+
+    container.appendChild(card);
+  });
+}
+
+function renderVideos() {
+  const container = document.getElementById("videosList");
+  container.replaceChildren();
+
+  if (!videosData.length) {
+    showMessage(
+      "videosList",
+      "▶️",
+      textFor("వీడియోలు లేవు", "No published videos"),
+      textFor(
+        "ధృవీకరించిన వీడియోలు ప్రచురించినప్పుడు ఇక్కడ కనిపిస్తాయి.",
+        "Published videos will appear here."
+      )
+    );
+    return;
+  }
+
+  videosData.forEach(video => {
+    const card = makeElement("article", "card");
+    card.appendChild(makeElement("div", "card-icon", "🎥"));
+    card.appendChild(makeElement(
+      "h3", "", video.title || textFor("వీడియో", "Video")
+    ));
+
+    if (video.category) {
+      card.appendChild(makeElement("p", "", video.category));
+    }
+
+    if (video.published_date) {
+      card.appendChild(makeElement(
+        "p", "",
+        textFor("ప్రచురణ తేదీ: ", "Published: ") +
+        video.published_date
+      ));
+    }
+
+    if (video.language) {
+      card.appendChild(makeElement(
+        "p", "",
+        textFor("భాష: ", "Language: ") + video.language
+      ));
+    }
+
+    addLink(
+      card,
+      video.youtube_url,
+      textFor("వీడియో చూడండి →", "Watch video →")
+    );
+
+    if (video.source_url) {
+      addLink(
+        card,
+        video.source_url,
+        textFor("మూల లింక్ →", "Source link →")
+      );
+    }
+
+    container.appendChild(card);
+  });
+}
+
+async function loadEvents() {
+  try {
+    eventsData = await fetchPublicData("EVENTS");
+    renderEvents();
+  } catch (error) {
+    console.error("Events API:", error);
+    showMessage(
+      "eventsList",
+      "⚠️",
+      textFor("సమావేశాలు లోడ్ కాలేదు", "Could not load events"),
+      textFor(
+        "ఇంటర్నెట్ కనెక్షన్‌ను చెక్ చేసి మళ్లీ ప్రయత్నించండి.",
+        "Check your connection and refresh the page."
+      )
+    );
+  }
+}
+
+async function loadVideos() {
+  try {
+    videosData = await fetchPublicData("VIDEOS");
+    renderVideos();
+  } catch (error) {
+    console.error("Videos API:", error);
+    showMessage(
+      "videosList",
+      "⚠️",
+      textFor("వీడియోలు లోడ్ కాలేదు", "Could not load videos"),
+      textFor(
+        "ఇంటర్నెట్ కనెక్షన్‌ను చెక్ చేసి మళ్లీ ప్రయత్నించండి.",
+        "Check your connection and refresh the page."
+      )
+    );
+  }
+}
+
+setLanguage("te");
+loadEvents();
+loadVideos();
+
   </script>
 </body>
 </html>
