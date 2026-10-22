@@ -4,10 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#17243a">
-  <meta name="description" content="MNS — భైరి నరేష్ గారి పరిచయం, బహిరంగ సమావేశాలు, ప్రసంగాలు మరియు సమాచార వేదిక.">
-  <title>MNS  | Bairi Naresh</title>
-
-
+  <meta name="description" content="MNS — మూఢ నమ్మకాల నిర్మూలన సంఘం. భైరి నరేష్ గారి పరిచయం, సమావేశాలు, ప్రసంగాలు మరియు సంబంధిత సమాచారం.">
+  <title>MNS — మూఢ నమ్మకాల నిర్మూలన సంఘం</title>
 
   <style>
     :root {
@@ -26,7 +24,7 @@
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 78px;
+      scroll-padding-top: 80px;
     }
 
     body {
@@ -35,15 +33,19 @@
       color: var(--text);
       font-family: system-ui, -apple-system, "Noto Sans Telugu",
         "Noto Sans", sans-serif;
-      line-height: 1.65;
+      line-height: 1.7;
     }
 
-    a { color: inherit; text-decoration: none; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
     button { font: inherit; cursor: pointer; }
 
     .container {
       width: min(1100px, 92%);
-      margin: auto;
+      margin-inline: auto;
     }
 
     header {
@@ -56,11 +58,11 @@
     }
 
     .nav {
-      min-height: 68px;
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 14px;
     }
 
     .brand {
@@ -68,33 +70,36 @@
       align-items: center;
       gap: 10px;
       font-weight: 800;
-      letter-spacing: .4px;
+      min-width: 0;
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
       display: grid;
       place-items: center;
       background: var(--gold);
       color: var(--navy);
       border-radius: 12px;
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 900;
     }
 
+    .brand-name { line-height: 1.35; }
+
     .brand small {
       display: block;
-      font-size: 10px;
+      font-size: 11px;
       color: #d4dbea;
       font-weight: 500;
-      letter-spacing: 1px;
+      letter-spacing: .2px;
     }
 
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
     }
 
     .lang-btn, .menu-btn {
@@ -110,7 +115,7 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 19px;
       font-size: 14px;
     }
 
@@ -122,13 +127,13 @@
         radial-gradient(ellipse at 90% 10%, #405573 0%, transparent 45%),
         var(--navy);
       color: white;
-      padding: 66px 0 60px;
+      padding: 62px 0;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap: 34px;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 38px;
       align-items: center;
     }
 
@@ -136,18 +141,17 @@
       color: var(--gold);
       font-weight: 750;
       font-size: 13px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     h1 {
-      font-size: clamp(34px, 6vw, 58px);
-      line-height: 1.2;
-      margin: 15px 0;
-      letter-spacing: -.8px;
+      font-size: clamp(32px, 5.5vw, 54px);
+      line-height: 1.25;
+      margin: 16px 0;
+      letter-spacing: -.5px;
     }
 
-    .hero p {
+    .hero-copy {
       color: #dce4f0;
       font-size: 16px;
       max-width: 620px;
@@ -181,39 +185,39 @@
       color: white;
     }
 
+    .btn:hover { transform: translateY(-1px); }
+
     .profile-card {
       background: #ffffff0d;
       border: 1px solid #ffffff25;
       border-radius: 24px;
-      padding: 28px;
+      padding: 24px;
       text-align: center;
     }
 
-    .profile-symbol {
-      width: 110px;
-      height: 110px;
-      display: grid;
-      place-items: center;
-      margin: 0 auto 18px;
+    .profile-photo {
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: center top;
       border: 2px solid var(--gold);
-      border-radius: 50%;
+      border-radius: 20px;
+      display: block;
+      margin: 0 auto 18px;
+      box-shadow: 0 12px 30px #00000025;
       background: var(--navy-light);
-      color: var(--gold);
-      font-size: 36px;
-      font-weight: 850;
     }
 
-    .profile-card h2 { margin: 8px 0; font-size: 23px; }
-    .profile-card p { font-size: 13px; margin-bottom: 0; }
+    .profile-card h2 {
+      margin: 8px 0;
+      font-size: 24px;
+    }
 
-    .notice {
-      background: #fff8e9;
-      border: 1px solid #f1dfb6;
-      border-radius: 12px;
-      padding: 13px 15px;
-      font-size: 13px;
-      color: #664c1d;
-      margin-top: 22px;
+    .profile-card p {
+      color: #dce4f0;
+      font-size: 14px;
+      margin: 5px 0;
     }
 
     .section { padding: 58px 0; }
@@ -241,7 +245,7 @@
       background: white;
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 22px;
+      padding: 23px;
       min-width: 0;
       box-shadow: 0 5px 20px #17243a06;
     }
@@ -258,7 +262,11 @@
     }
 
     .card h3 { margin: 0 0 8px; font-size: 19px; }
-    .card p { color: var(--muted); font-size: 14px; }
+
+    .card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
 
     .text-link {
       display: inline-block;
@@ -268,42 +276,21 @@
       font-size: 14px;
     }
 
-    .event-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      display: flex;
-      align-items: flex-start;
-      gap: 17px;
-    }
-
-    .event-icon {
-      background: #fff3d8;
-      border-radius: 13px;
-      padding: 14px;
-      font-size: 25px;
-    }
-
-    .event-card h3 { margin: 0 0 6px; }
-    .event-card p { color: var(--muted); margin: 0; font-size: 14px; }
-
     .empty {
       border: 1px dashed #cbd3e0;
       border-radius: var(--radius);
-      padding: 28px 20px;
+      padding: 30px 20px;
       text-align: center;
       background: white;
     }
 
-    .empty .big { font-size: 30px; }
+    .empty .big { font-size: 32px; }
     .empty h3 { margin: 7px 0; }
-    .empty p { margin: 0; color: var(--muted); font-size: 14px; }
 
-    .video-box {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
+    .empty p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
     }
 
     .about-strip {
@@ -313,10 +300,10 @@
       padding: 30px;
     }
 
+    .about-strip h2 { margin-top: 0; }
     .about-strip p { color: #dce4f0; }
 
     footer {
-      margin-top: 20px;
       background: #111b2b;
       color: white;
       padding: 28px 0;
@@ -330,9 +317,19 @@
       gap: 12px;
     }
 
-    footer p { color: #c6cfdd; font-size: 13px; margin: 5px 0; }
+    footer p {
+      color: #c6cfdd;
+      font-size: 13px;
+      margin: 5px 0;
+    }
+
+    @media (max-width: 850px) {
+      .nav-links { gap: 12px; font-size: 13px; }
+      .hero-grid { gap: 24px; }
+    }
 
     @media (max-width: 760px) {
+      .nav { min-height: 68px; }
       .menu-btn { display: inline-block; }
 
       .nav-links {
@@ -341,7 +338,7 @@
         left: 0;
         right: 0;
         top: 68px;
-        padding: 16px 4%;
+        padding: 12px 4%;
         background: var(--navy);
         flex-direction: column;
         align-items: stretch;
@@ -351,29 +348,19 @@
 
       .nav-links.open { display: flex; }
       .nav-links a { padding: 12px 6px; }
-      .hero { padding: 43px 0; }
+
+      .hero { padding: 42px 0; }
       .hero-grid { grid-template-columns: 1fr; gap: 25px; }
-      .profile-card { padding: 22px; }
-      .profile-symbol { width: 88px; height: 88px; font-size: 29px; }
+      .profile-card { padding: 20px; }
+      .profile-photo { max-width: 300px; }
       .grid { grid-template-columns: 1fr; }
-      .video-box { grid-template-columns: 1fr; }
       .section { padding: 42px 0; }
       .about-strip { padding: 23px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-
-      .profile-photo {
-  width: 100%;
-  max-width: 340px;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  object-position: center top;
-  border-radius: 22px;
-  display: block;
-  margin: 0 auto;
-}
+      .btn:hover { transform: none; }
     }
   </style>
 </head>
@@ -381,11 +368,14 @@
 <body>
   <header>
     <div class="container nav">
-      <a class="brand" href="#home" aria-label="MNS  Home">
+      <a class="brand" href="#home" aria-label="MNS Home">
         <span class="brand-mark">MNS</span>
-        <span>
-          MNS 
-          <small id="brand-sub">మూడ నమ్మకాల నిర్మూలన సంఘం</small>
+        <span class="brand-name">
+          MNS
+          <small data-te="మూఢ నమ్మకాల నిర్మూలన సంఘం"
+            data-en="Association for the Eradication of Superstitions">
+            మూఢ నమ్మకాల నిర్మూలన సంఘం
+          </small>
         </span>
       </a>
 
@@ -398,7 +388,7 @@
 
       <nav class="nav-links" id="navLinks">
         <a href="#home" data-te="హోమ్" data-en="Home">హోమ్</a>
-        <a href="#about" data-te="పరిచయం" data-en="About">పరిచయం</a>
+        <a href="#about" data-te="సంఘం గురించి" data-en="About">సంఘం గురించి</a>
         <a href="#events" data-te="సమావేశాలు" data-en="Events">సమావేశాలు</a>
         <a href="#videos" data-te="వీడియోలు" data-en="Videos">వీడియోలు</a>
         <a href="#contact" data-te="సంప్రదింపు" data-en="Contact">సంప్రదింపు</a>
@@ -410,55 +400,53 @@
     <section class="hero" id="home">
       <div class="container hero-grid">
         <div>
-          <div class="eyebrow" data-te="సమాచారం · ఆలోచనలు · సమావేశాలు"
-            data-en="INFORMATION · IDEAS · EVENTS">
-            సమాచారం · ఆలోచనలు · సమావేశాలు
+          <div class="eyebrow"
+            data-te="హేతువాదం · అవగాహన · ప్రజా చర్చలు"
+            data-en="RATIONAL THINKING · AWARENESS · PUBLIC DISCUSSION">
+            హేతువాదం · అవగాహన · ప్రజా చర్చలు
           </div>
 
-          <h1 data-te="ప్రశ్నించండి. తెలుసుకోండి. చర్చించండి."
-            data-en="Question. Learn. Discuss.">
-            ప్రశ్నించండి. తెలుసుకోండి. చర్చించండి.
+          <h1
+            data-te="ప్రశ్నించండి. పరిశీలించండి. ఆధారాలతో ఆలోచించండి."
+            data-en="Question. Examine. Think with Evidence.">
+            ప్రశ్నించండి. పరిశీలించండి. ఆధారాలతో ఆలోచించండి.
           </h1>
 
-          <p data-te="భైరి నరేష్ గారి ప్రజా ప్రొఫైల్, బహిరంగ సమావేశాలు, ప్రసంగాలు మరియు సంబంధిత సమాచారాన్ని ఒకే చోట అందించే సమాచార వేదిక."
-            data-en="A public information platform for Bairi Naresh's profile, public meetings, speeches and related resources.">
-            భైరి నరేష్ గారి ప్రజా ప్రొఫైల్, బహిరంగ సమావేశాలు, ప్రసంగాలు
-            మరియు సంబంధిత సమాచారాన్ని ఒకే చోట అందించే సమాచార వేదిక.
+          <p class="hero-copy"
+            data-te="మూఢ నమ్మకాల నిర్మూలన సంఘం (MNS) కార్యక్రమాలు, బహిరంగ సమావేశాలు, ప్రసంగాలు మరియు సంబంధిత సమాచారాన్ని ప్రజలకు అందించే వేదిక."
+            data-en="A platform sharing information about MNS activities, public meetings, speeches and related resources.">
+            మూఢ నమ్మకాల నిర్మూలన సంఘం (MNS) కార్యక్రమాలు, బహిరంగ సమావేశాలు,
+            ప్రసంగాలు మరియు సంబంధిత సమాచారాన్ని ప్రజలకు అందించే వేదిక.
           </p>
 
           <div class="buttons">
             <a class="btn btn-gold" href="#events"
               data-te="సమావేశాలు చూడండి →"
               data-en="Explore Events →">సమావేశాలు చూడండి →</a>
-            <a class="btn btn-outline" href="#about"
-              data-te="మా గురించి"
-              data-en="Learn More">మా గురించి</a>
-          </div>
 
-          <div class="notice"
-            data-te="గమనిక: ఈ వెబ్‌సైట్ స్వతంత్రంగా రూపొందించిన సమాచార వేదిక. అధికారిక గుర్తింపు లేదా అనుమతి నిర్ధారించబడే వరకు దీనిని అధికారిక ఫౌండేషన్ వెబ్‌సైట్‌గా భావించవద్దు."
-            data-en="Note: This is an independently created information platform. Until authorization is confirmed, it should not be treated as the foundation's official website.">
-            గమనిక: ఈ వెబ్‌సైట్ స్వతంత్రంగా రూపొందించిన సమాచార వేదిక.
-            అధికారిక గుర్తింపు లేదా అనుమతి నిర్ధారించబడే వరకు దీనిని
-            అధికారిక వెబ్‌సైట్‌గా భావించవద్దు.
+            <a class="btn btn-outline" href="#about"
+              data-te="సంఘం గురించి"
+              data-en="About MNS">సంఘం గురించి</a>
           </div>
         </div>
 
         <div class="profile-card">
-          <div class="profile-symbol" aria-hidden="true">BN</div>
-            <img
-  src="bairi-naresh.png"
-  alt="భైరి నరేష్"
-  class="profile-photo"
->
-          <h2 data-te="భైరి నరేష్" data-en="Bairi Naresh">భైరి నరేష్</h2>
-          <p data-te="నాస్తిక, హేతువాద కార్యకర్తగా ప్రజా చర్చల్లో గుర్తింపు పొందిన వ్యక్తి."
-            data-en="A public figure known for atheist and rationalist activism.">
-            నాస్తిక, హేతువాద కార్యకర్తగా ప్రజా చర్చల్లో గుర్తింపు పొందిన వ్యక్తి.
-          </p>
-          <p data-te="ధృవీకరించిన వివరాలు త్వరలో జోడించబడతాయి."
-            data-en="Verified profile details will be added.">
-            ధృవీకరించిన వివరాలు త్వరలో జోడించబడతాయి.
+          <img
+            src="bairi-naresh.png"
+            alt="భైరి నరేష్"
+            class="profile-photo"
+            loading="eager"
+          >
+
+          <h2 data-te="భైరి నరేష్" data-en="Bairi Naresh">
+            భైరి నరేష్
+          </h2>
+
+          <p
+            data-te="MNS మరియు దాని కార్యక్రమాల గురించి ధృవీకరించిన వివరాలు ఇక్కడ జోడించబడతాయి."
+            data-en="Verified information about MNS and its activities will be added here.">
+            MNS మరియు దాని కార్యక్రమాల గురించి ధృవీకరించిన వివరాలు
+            ఇక్కడ జోడించబడతాయి.
           </p>
         </div>
       </div>
@@ -467,22 +455,25 @@
     <section class="section" id="about">
       <div class="container">
         <div class="section-head">
-          <h2 data-te="ఈ వేదిక గురించి" data-en="About This Platform">
-            ఈ వేదిక గురించి
-          </h2>
-          <p data-te="ముఖ్యమైన సమాచారం సులభంగా కనుగొనడానికి రూపొందించిన వేదిక."
-            data-en="A simple place to discover public information and resources.">
-            ముఖ్యమైన సమాచారం సులభంగా కనుగొనడానికి రూపొందించిన వేదిక.
+          <h2 data-te="MNS గురించి" data-en="About MNS">MNS గురించి</h2>
+          <p
+            data-te="సంఘం లక్ష్యాలు, కార్యక్రమాలు, ప్రజా అవగాహన కార్యకలాపాల సమాచారం."
+            data-en="Information about the association, its activities and public awareness initiatives.">
+            సంఘం లక్ష్యాలు, కార్యక్రమాలు, ప్రజా అవగాహన కార్యకలాపాల సమాచారం.
           </p>
         </div>
 
         <div class="grid">
           <article class="card">
-            <div class="card-icon">👤</div>
-            <h3 data-te="జీవిత పరిచయం" data-en="Biography">జీవిత పరిచయం</h3>
-            <p data-te="ధృవీకరించిన జీవిత చరిత్ర, ఉద్యమ ప్రస్థానం, బహిరంగ అభిప్రాయాలు."
-              data-en="Verified biography, public activities and published viewpoints.">
-              ధృవీకరించిన జీవిత చరిత్ర, ఉద్యమ ప్రస్థానం, బహిరంగ అభిప్రాయాలు.
+            <div class="card-icon">🔎</div>
+            <h3 data-te="హేతువాద ఆలోచన" data-en="Rational Thinking">
+              హేతువాద ఆలోచన
+            </h3>
+            <p
+              data-te="వాదనలు, నమ్మకాలు మరియు సమాచారాన్ని ఆధారాలతో పరిశీలించే ఆలోచనా విధానంపై సమాచారం."
+              data-en="Resources about examining claims, beliefs and information using evidence.">
+              వాదనలు, నమ్మకాలు మరియు సమాచారాన్ని ఆధారాలతో పరిశీలించే
+              ఆలోచనా విధానంపై సమాచారం.
             </p>
           </article>
 
@@ -491,14 +482,14 @@
             <h3 data-te="ప్రజా సమావేశాలు" data-en="Public Meetings">
               ప్రజా సమావేశాలు
             </h3>
-            <p data-te="ధృవీకరించిన తేదీలు, సమయాలు, వేదికలు, మ్యాప్ లింకులు."
-              data-en="Verified dates, times, venues and map links.">
-              ధృవీకరించిన తేదీలు, సమయాలు, వేదికలు, మ్యాప్ లింకులు.
+            <p
+              data-te="ధృవీకరించిన తేదీలు, సమయాలు, వేదికలు మరియు మ్యాప్ లింకులు."
+              data-en="Verified event dates, times, venues and map links.">
+              ధృవీకరించిన తేదీలు, సమయాలు, వేదికలు మరియు మ్యాప్ లింకులు.
             </p>
             <a class="text-link" href="#events"
-              data-te="సమావేశాలు చూడండి →" data-en="View Events →">
-              సమావేశాలు చూడండి →
-            </a>
+              data-te="సమావేశాలు చూడండి →"
+              data-en="View Events →">సమావేశాలు చూడండి →</a>
           </article>
 
           <article class="card">
@@ -506,14 +497,15 @@
             <h3 data-te="ప్రసంగాలు, వీడియోలు" data-en="Speeches & Videos">
               ప్రసంగాలు, వీడియోలు
             </h3>
-            <p data-te="అసలు ప్రచురణల నుంచి వీడియోలు, ఇంటర్వ్యూలు, చర్చలు."
-              data-en="Videos, interviews and debates linked to original sources.">
-              అసలు ప్రచురణల నుంచి వీడియోలు, ఇంటర్వ్యూలు, చర్చలు.
+            <p
+              data-te="అసలు ప్రచురణల నుంచి ధృవీకరించిన వీడియోలు, ఇంటర్వ్యూలు మరియు చర్చలు."
+              data-en="Verified videos, interviews and discussions from original sources.">
+              అసలు ప్రచురణల నుంచి ధృవీకరించిన వీడియోలు, ఇంటర్వ్యూలు
+              మరియు చర్చలు.
             </p>
             <a class="text-link" href="#videos"
-              data-te="వీడియోలు చూడండి →" data-en="View Videos →">
-              వీడియోలు చూడండి →
-            </a>
+              data-te="వీడియోలు చూడండి →"
+              data-en="View Videos →">వీడియోలు చూడండి →</a>
           </article>
         </div>
       </div>
@@ -525,21 +517,24 @@
           <h2 data-te="రాబోయే సమావేశాలు" data-en="Upcoming Meetings">
             రాబోయే సమావేశాలు
           </h2>
-          <p data-te="ధృవీకరించిన కార్యక్రమాల వివరాలు ఇక్కడ కనిపిస్తాయి."
-            data-en="Verified event details will appear here.">
-            ధృవీకరించిన కార్యక్రమాల వివరాలు ఇక్కడ కనిపిస్తాయి.
+          <p
+            data-te="ధృవీకరించిన కార్యక్రమాల తేదీ, సమయం మరియు ప్రదేశం ఇక్కడ కనిపిస్తాయి."
+            data-en="Verified event dates, times and venues will appear here.">
+            ధృవీకరించిన కార్యక్రమాల తేదీ, సమయం మరియు ప్రదేశం ఇక్కడ కనిపిస్తాయి.
           </p>
         </div>
 
         <div class="empty">
           <div class="big">📍</div>
-          <h3 data-te="ప్రస్తుతం సమావేశాలు ప్రచురించబడలేదు."
-            data-en="No meetings published yet.">
-            ప్రస్తుతం సమావేశాలు ప్రచురించబడలేదు.
+          <h3 data-te="సమావేశాల వివరాలు త్వరలో"
+            data-en="Meeting details coming soon">
+            సమావేశాల వివరాలు త్వరలో
           </h3>
-          <p data-te="తేదీ, సమయం, ప్రదేశం ధృవీకరించిన తర్వాత ఇక్కడ జోడించబడతాయి."
-            data-en="Events will appear after their date, time and venue are verified.">
-            తేదీ, సమయం, ప్రదేశం ధృవీకరించిన తర్వాత ఇక్కడ జోడించబడతాయి.
+          <p
+            data-te="ధృవీకరించిన సమావేశాల వివరాలు అందుబాటులోకి వచ్చినప్పుడు ఇక్కడ ప్రచురిస్తాం."
+            data-en="Verified meeting details will be published here when available.">
+            ధృవీకరించిన సమావేశాల వివరాలు అందుబాటులోకి వచ్చినప్పుడు
+            ఇక్కడ ప్రచురిస్తాం.
           </p>
         </div>
       </div>
@@ -548,12 +543,14 @@
     <section class="section" id="videos">
       <div class="container">
         <div class="section-head">
-          <h2 data-te="ప్రసంగాలు & వీడియోలు" data-en="Speeches & Videos">
+          <h2 data-te="ప్రసంగాలు & వీడియోలు"
+            data-en="Speeches & Videos">
             ప్రసంగాలు & వీడియోలు
           </h2>
-          <p data-te="మూల ప్రచురణలకు లింకులు ఇక్కడ జోడించబడతాయి."
-            data-en="Links to original publications will be added here.">
-            మూల ప్రచురణలకు లింకులు ఇక్కడ జోడించబడతాయి.
+          <p
+            data-te="మూల ప్రచురణల నుంచి వీడియో లింకులు ఇక్కడ జోడించబడతాయి."
+            data-en="Video links from original sources will be added here.">
+            మూల ప్రచురణల నుంచి వీడియో లింకులు ఇక్కడ జోడించబడతాయి.
           </p>
         </div>
 
@@ -562,7 +559,8 @@
           <h3 data-te="వీడియోలు త్వరలో" data-en="Videos coming soon">
             వీడియోలు త్వరలో
           </h3>
-          <p data-te="ధృవీకరించిన వీడియో లింకులు అందుబాటులోకి వచ్చినప్పుడు జోడిస్తాం."
+          <p
+            data-te="ధృవీకరించిన వీడియో లింకులు అందుబాటులోకి వచ్చినప్పుడు జోడిస్తాం."
             data-en="Verified video links will be added when available.">
             ధృవీకరించిన వీడియో లింకులు అందుబాటులోకి వచ్చినప్పుడు జోడిస్తాం.
           </p>
@@ -573,18 +571,22 @@
     <section class="section" id="contact">
       <div class="container">
         <div class="about-strip">
-          <h2 data-te="సమాచారం సరిచేయాలనుకుంటున్నారా?"
-            data-en="Want to correct information?">
-            సమాచారం సరిచేయాలనుకుంటున్నారా?
+          <h2 data-te="సంప్రదింపు & సమాచారం"
+            data-en="Contact & Information">
+            సంప్రదింపు & సమాచారం
           </h2>
-          <p data-te="జీవిత చరిత్ర, సమావేశం లేదా వీడియోకు సంబంధించిన మార్పులను ప్రచురించే ముందు మూలాలతో ధృవీకరిస్తాం."
-            data-en="Information about profiles, events and videos should be checked against sources before publication.">
-            జీవిత చరిత్ర, సమావేశం లేదా వీడియోకు సంబంధించిన మార్పులను
-            ప్రచురించే ముందు మూలాలతో ధృవీకరిస్తాం.
+
+          <p
+            data-te="సమావేశాలు, వీడియోలు లేదా సంఘం వివరాలకు సంబంధించిన సమాచారం ప్రచురించే ముందు మూలాలతో ధృవీకరించాలి."
+            data-en="Information about meetings, videos and the association should be verified against sources before publication.">
+            సమావేశాలు, వీడియోలు లేదా సంఘం వివరాలకు సంబంధించిన సమాచారం
+            ప్రచురించే ముందు మూలాలతో ధృవీకరించాలి.
           </p>
-          <p data-te="సంప్రదింపు లింక్ నిర్వాహకుల ఆమోదం తర్వాత జోడించబడుతుంది."
-            data-en="A contact link will be added after the administrators approve it.">
-            సంప్రదింపు లింక్ నిర్వాహకుల ఆమోదం తర్వాత జోడించబడుతుంది.
+
+          <p
+            data-te="సంప్రదింపు వివరాలు సంఘం ఆమోదంతో త్వరలో జోడించబడతాయి."
+            data-en="Contact details will be added with the association's approval.">
+            సంప్రదింపు వివరాలు సంఘం ఆమోదంతో త్వరలో జోడించబడతాయి.
           </p>
         </div>
       </div>
@@ -594,12 +596,14 @@
   <footer>
     <div class="container footer-row">
       <div>
-        <strong>MNS Association for the Eradication of Superstitions</strong>
-        <p>© <span id="year"></span> · Public information platform</p>
+        <strong>MNS — మూఢ నమ్మకాల నిర్మూలన సంఘం</strong>
+        <p>© <span id="year"></span></p>
       </div>
-      <p data-te="ధృవీకరించిన సమాచారం · బాధ్యతాయుత ప్రచురణ"
-        data-en="Verified information · Responsible publishing">
-        ధృవీకరించిన సమాచారం · బాధ్యతాయుత ప్రచురణ
+
+      <p
+        data-te="ఆధారాలతో ఆలోచించండి · బాధ్యతాయుత సమాచారం"
+        data-en="Think with evidence · Responsible information">
+        ఆధారాలతో ఆలోచించండి · బాధ్యతాయుత సమాచారం
       </p>
     </div>
   </footer>
@@ -620,9 +624,10 @@
       });
 
       langBtn.textContent = lang === "te" ? "EN" : "తెలుగు";
+
       document.title = lang === "te"
-        ? "MNS Foundation | Bairi Naresh"
-        : "MNS Foundation | Bairi Naresh";
+        ? "MNS — మూఢ నమ్మకాల నిర్మూలన సంఘం"
+        : "MNS — Association for the Eradication of Superstitions";
     }
 
     langBtn.addEventListener("click", () => {
