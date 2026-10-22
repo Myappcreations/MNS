@@ -437,6 +437,80 @@
   }
 }
 
+.video-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.video-thumbnail-link {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 13px;
+  background: #17243a;
+}
+
+.video-thumbnail {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform .2s ease;
+}
+
+.video-thumbnail-link:hover .video-thumbnail {
+  transform: scale(1.04);
+}
+
+.video-play-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 40px;
+  border-radius: 12px;
+  background: #d92323;
+  color: white;
+  font-size: 21px;
+  box-shadow: 0 4px 14px #0005;
+}
+
+.video-category {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #edf1f8;
+  color: #244d83;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.video-card h3 {
+  margin: 0;
+}
+
+.video-meta {
+  margin: 0;
+}
+
+.video-watch-btn {
+  margin-top: 4px;
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-thumbnail {
+    transition: none;
+  }
+}
+
       
     }
   </style>
@@ -885,6 +959,7 @@ function renderEvents() {
   });
 }
 
+
 function renderVideos() {
   const container = document.getElementById("videosList");
   container.replaceChildren();
@@ -903,48 +978,148 @@ function renderVideos() {
   }
 
   videosData.forEach(video => {
-    const card = makeElement("article", "card");
-    card.appendChild(makeElement("div", "card-icon", "🎥"));
-    card.appendChild(makeElement(
-      "h3", "", video.title || textFor("వీడియో", "Video")
-    ));
+    const card = makeElement("article", "card video-card");
 
+    const videoUrl = getYouTubeUrl(video.youtube_url);
+    const videoId = getYouTubeId(video.youtube_url);
+
+    // Thumbnail
+    if (videoId && videoUrl) {
+      const thumbnailLink = makeElement("a", "video-thumbnail-link");
+      thumbnailLink.href = videoUrl;
+      thumbnailLink.target = "_blank";
+      thumbnailLink.rel = "noopener noreferrer";
+      thumbnailLink.setAttribute(
+        "aria-label",
+        textFor("YouTube వీడియో చూడండి", "Watch YouTube video")
+      );
+
+      const thumbnail = document.createElement("img");
+      thumbnail.src =
+        "https://img.youtube.com/vi/" + videoId + "/hqdefault.jpg";
+      thumbnail.alt = video.title || "YouTube video thumbnail";
+      thumbnail.loading = "lazy";
+      thumbnail.className = "video-thumbnail";
+
+      thumbnail.onerror = () => {
+        thumbnailLink.remove();
+      };
+
+      const playIcon = makeElement("span", "video-play-icon", "▶");
+      thumbnailLink.append(thumbnail, playIcon);
+      card.appendChild(thumbnailLink);
+    }
+
+    // Category
     if (video.category) {
-      card.appendChild(makeElement("p", "", video.category));
-    }
-
-    if (video.published_date) {
-      card.appendChild(makeElement(
-        "p", "",
-        textFor("ప్రచురణ తేదీ: ", "Published: ") +
-        video.published_date
-      ));
-    }
-
-    if (video.language) {
-      card.appendChild(makeElement(
-        "p", "",
-        textFor("భాష: ", "Language: ") + video.language
-      ));
-    }
-
-    addLink(
-      card,
-      video.youtube_url,
-      textFor("వీడియో చూడండి →", "Watch video →")
-    );
-
-    if (video.source_url) {
-      addLink(
-        card,
-        video.source_url,
-        textFor("మూల లింక్ →", "Source link →")
+      card.appendChild(
+        makeElement("span", "video-category", video.category)
       );
     }
+
+    // Title
+    card.appendChild(
+      makeElement(
+        "h3",
+        "",
+        video.title || textFor("వీడియో", "Video")
+      )
+    );
+
+    // Date and language
+    const metadata = [
+      video.published_date
+        ? textFor("తేదీ: ", "Date: ") + video.published_date
+        : "",
+      video.language
+        ? textFor("భాష: ", "Language: ") + video.language
+        : ""
+    ].filter(Boolean);
+
+    if (metadata.length) {
+      card.appendChild(makeElement("p", "video-meta", metadata.join(" · ")));
+    }
+
+    // Watch button
+    if (videoUrl) {
+      const watchButton = makeElement(
+        "a",
+        "btn btn-gold video-watch-btn",
+        textFor("▶ వీడియో చూడండి", "▶ Watch Video")
+      );
+
+      watchButton.href = videoUrl;
+      watchButton.target = "_blank";
+      watchButton.rel = "noopener noreferrer";
+      card.appendChild(watchButton);
+    }
+
+    // Original source
+    addLink(
+      card,
+      video.source_url,
+      textFor("మూల లింక్ →", "Original source →")
+    );
 
     container.appendChild(card);
   });
 }
+
+function getYouTubeUrl(value) {
+  if (!value) return "";
+
+  try {
+    const url = new URL(value.trim());
+
+    const allowedHosts = [
+      "youtube.com",
+      "www.youtube.com",
+      "m.youtube.com",
+      "youtu.be",
+      "www.youtube-nocookie.com"
+    ];
+
+    if (!allowedHosts.includes(url.hostname.toLowerCase())) {
+      return "";
+    }
+
+    if (url.protocol !== "https:") return "";
+
+    return url.href;
+  } catch (_) {
+    return "";
+  }
+}
+
+function getYouTubeId(value) {
+  const safeUrl = getYouTubeUrl(value);
+  if (!safeUrl) return "";
+
+  try {
+    const url = new URL(safeUrl);
+    let id = "";
+
+    if (url.hostname === "youtu.be") {
+      id = url.pathname.split("/").filter(Boolean)[0] || "";
+    } else {
+      const parts = url.pathname.split("/").filter(Boolean);
+
+      if (url.searchParams.has("v")) {
+        id = url.searchParams.get("v");
+      } else if (
+        ["embed", "shorts", "live"].includes(parts[0]) &&
+        parts[1]
+      ) {
+        id = parts[1];
+      }
+    }
+
+    return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
+  } catch (_) {
+    return "";
+  }
+}
+
 
 async function loadEvents() {
   try {
