@@ -437,15 +437,19 @@
   }
 }
 
+
 .video-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 10px;
+  overflow: hidden;
+  min-width: 0;
 }
 
 .video-thumbnail-link {
   width: 100%;
+  max-width: 100%;
   aspect-ratio: 16 / 9;
   position: relative;
   display: block;
@@ -457,13 +461,14 @@
 .video-thumbnail {
   width: 100%;
   height: 100%;
+  max-width: 100%;
   display: block;
   object-fit: cover;
   transition: transform .2s ease;
 }
 
 .video-thumbnail-link:hover .video-thumbnail {
-  transform: scale(1.04);
+  transform: scale(1.03);
 }
 
 .video-play-icon {
@@ -483,7 +488,7 @@
 }
 
 .video-category {
-  display: inline-block;
+  align-self: flex-start;
   padding: 4px 10px;
   border-radius: 999px;
   background: #edf1f8;
@@ -494,6 +499,7 @@
 
 .video-card h3 {
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .video-meta {
@@ -840,7 +846,7 @@ function fetchPublicData(sheetName) {
     const timeout = setTimeout(() => {
       cleanup();
       reject(new Error("API request timed out"));
-    }, 20000);
+    }, 10000);
 
     function cleanup() {
       clearTimeout(timeout);
@@ -1122,6 +1128,12 @@ function getYouTubeId(value) {
 
 
 async function loadEvents() {
+    showMessage(
+    "eventsList",
+    "⏳",
+    textFor("సమావేశాలు లోడ్ అవుతున్నాయి...", "Loading events..."),
+    textFor("దయచేసి వేచి ఉండండి.", "Please wait.")
+  );
   try {
     eventsData = await fetchPublicData("EVENTS");
     renderEvents();
@@ -1140,6 +1152,12 @@ async function loadEvents() {
 }
 
 async function loadVideos() {
+    showMessage(
+    "videosList",
+    "⏳",
+    textFor("వీడియోలు లోడ్ అవుతున్నాయి...", "Loading videos..."),
+    textFor("దయచేసి వేచి ఉండండి.", "Please wait.")
+  );
   try {
     videosData = await fetchPublicData("VIDEOS");
     renderVideos();
